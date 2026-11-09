@@ -272,7 +272,7 @@ function doGet(e) {
     try {
       const t = TRAVELLERS.find(x => x.hash === p.hash);
       if (!t) return out({ok:false, msg:'Unknown traveller'});
-      if (props.getProperty(key(t.hash))) return out({ok:false, already:true, msg:'Already emailed today'});   // one manual email per person per day
+      if (props.getProperty(key(t.hash)) && p.force !== '1') return out({ok:false, already:true, msg:'Already emailed today'});   // the tracker asks for confirmation and then sends with force=1
       const st = getStatus(t);
       if (st.complete) return out({ok:false, msg:'All items are done'});
       send(t, 'countdown', st, date, true);   // manual: no [TEST] prefix
