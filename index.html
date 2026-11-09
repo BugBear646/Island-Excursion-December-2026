@@ -54,6 +54,7 @@ body,nav,.card,.btn,.kv,.pc,dialog,.tg{transition:background-color .4s,color .4s
 @media(prefers-reduced-motion:reduce){.fl,.wv,.fb{animation:none}}
 .day{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);margin-bottom:20px;border-radius:28px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
 @media(max-width:760px){.day{grid-template-columns:1fr}.ban{min-height:240px}}
+.day.past:not(.open){grid-template-columns:1fr;margin-bottom:12px}.day.past:not(.open) .tl{display:none}.day.past .ban{cursor:pointer}.day.past:not(.open) .ban{min-height:0}.day.past:not(.open) .ban div{padding:18px 20px}.day.past .ban div::after{content:'Show \25BE';float:right;font-size:13px;font-weight:600;opacity:.9}.day.past.open .ban div::after{content:'Hide \25B4'}
 .ban{position:relative;min-height:320px;background:var(--deep) center/cover;display:flex;align-items:flex-end}
 .ban div{width:100%;color:#fff;padding:60px 20px 18px;background:linear-gradient(#0000,#0b3b45d9);text-shadow:0 1px 10px #0007}.ban b{font:300 40px/1 'Fraunces',serif}.ban small{display:block;font-size:15px}
 .tl{padding:20px 22px}.tl ul{list-style:none;margin:12px 0;padding:0}
@@ -292,6 +293,7 @@ sv.addEventListener('wheel',e=>{if(!e.ctrlKey&&!e.metaKey)return;e.preventDefaul
 let pd=null;sv.addEventListener('pointerdown',e=>{pd={x:e.clientX,y:e.clientY,v:vb.slice(),m:0}});
 addEventListener('pointermove',e=>{if(!pd)return;const dx=e.clientX-pd.x,dy=e.clientY-pd.y;if(Math.abs(dx)+Math.abs(dy)>4)pd.m=1;if(!pd.m)return;const r=sv.getBoundingClientRect(),k=pd.v[2]/r.width;vb=[pd.v[0]-dx*k,pd.v[1]-dy*k,pd.v[2],pd.v[3]];fit();setVB()});
 addEventListener('pointerup',()=>{if(pd&&pd.m)sv.addEventListener('click',e=>{e.preventDefault();e.stopPropagation()},{capture:true,once:true});pd=null});
+const IST=new URLSearchParams(location.search).get('date')||new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'}),DIFF=Math.round((Date.parse(IST+'T00:00:00Z')-Date.parse('2026-12-12T00:00:00Z'))/864e5),TD=Math.max(0,Math.min(D.length-1,DIFF));
 $('#tabs').innerHTML=D.map((d,i)=>`<button class="tab" onclick="draw(${i})">Day ${i+1}</button>`).join('');
 // ---- prep (day 0) ----
 const li=a=>'<ul class="b">'+a.map(x=>`<li>${x}</li>`).join('')+'</ul>';
@@ -301,7 +303,8 @@ $('#d0').innerHTML=`<article class="day"><div class="ban" style="background-imag
 <h3 style="margin-top:18px">2. Print and carry</h3>${li(['<span class="mark">Original passport</span> valid 6+ months. Mandatory: both stays accept only a passport as ID.','Your own printed copy of the flights (out and back), both stays and the insurance. Download all of them from <a href="#book">Bookings</a>.','Thailand Digital Arrival Card (TDAC), submitted within 72 hours before arrival (applied via Atlys + MMT). Return ticket 6E 1218. Stay vouchers. This itinerary.','No visa needed: Thailand’s visa exemption covers Indian passport holders for stays under 30 days. Yours is 8 days.'])}
 <h3 style="margin-top:18px">3. Pack</h3>${li(['Swimsuits, at least 2 quick-dry, so one is always dry.','Mosquito repellent, shared: 3 tubes or 1–2 sprays across the group, for example one tube and one spray each from two people.','Waterproof sunscreen for everyone and breathable clothes. Expect 25–33°C, clear with some cloud.','<b>Waterproof phone pouch</b>, one each. Keeps phones and essentials dry on the island hops, especially the Hong Island tour and the kayak day.','Optional: swimming goggles and a swim cap.','Power bank and chargers in the cabin bag. Cabin 7 kg, check-in 20 kg per adult, one handbag only.'])}
 <h3 style="margin-top:18px">4. Phone</h3><p>Sort 8 days of data: Airtel prepaid ₹1,198 (10 days, 200 mins, 3 GB) or postpaid ₹2,999 (unlimited, 100 mins/day), Jio roaming, or the <a href="https://www.ais.th/esim-traveller/" target="_blank" rel="noopener">AIS eSIM</a> (about 15 USD, 8 days unlimited).</p></div></article>`;
-$('#dg').innerHTML=D.map((d,i)=>`<article class="day"><div class="ban" style="background-image:url(${IM[i+1]})"><div><b>Day ${i+1}</b><small>${d.d}</small></div></div><div class="tl"><h3>${d.n}</h3>${d.pre||''}<ul>${d.r.map(r=>`<li><b>${r[0]}</b><span>${r[1]}</span></li>`).join('')}</ul><a href="#map" class="btn" onclick="draw(${i})">Show on map</a></div></article>`).join('');
+$('#dg').innerHTML=D.map((d,i)=>`<article class="day${i<DIFF?' past':''}"><div class="ban" style="background-image:url(${IM[i+1]})"><div><b>Day ${i+1}</b><small>${d.d}</small></div></div><div class="tl"><h3>${d.n}</h3>${d.pre||''}<ul>${d.r.map(r=>`<li><b>${r[0]}</b><span>${r[1]}</span></li>`).join('')}</ul><a href="#map" class="btn" onclick="draw(${i})">Show on map</a></div></article>`).join('');
+$('#dg').addEventListener('click',e=>{const b=e.target.closest('.past .ban');if(b)b.parentElement.classList.toggle('open')});
 // ---- bookings ----
 // ---- locked documents: PDFs and traveller details are AES-GCM encrypted; each traveller's code unwraps the key ----
 const b64u=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
@@ -373,7 +376,7 @@ b.onclick=()=>{own=true;set(R.dataset.theme=='dark'?'light':'dark')}};
 {const n=document.getElementById('nav'),b=document.getElementById('mb'),o=v=>{n.classList.toggle('open',v);b.setAttribute('aria-expanded',v);b.textContent=v?'✕ Menu':'☰ Menu'};
 b.onclick=()=>o(!n.classList.contains('open'));n.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>o(false)));
 document.addEventListener('click',e=>{if(!n.contains(e.target))o(false)});document.addEventListener('keydown',e=>{if(e.key=='Escape')o(false)})};
-draw(0);
+draw(TD);
 {const imgs=Object.values(IM).map(u=>{const i=new Image();i.src=u;return(i.decode?i.decode():new Promise(r=>i.onload=r)).catch(()=>{})}),
 loaded=new Promise(r=>document.readyState=='complete'?r():addEventListener('load',r)),
 ready=Promise.all([loaded,document.fonts?document.fonts.ready:0,...imgs]);
