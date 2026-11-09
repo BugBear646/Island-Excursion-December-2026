@@ -1,18 +1,37 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>Checklist Tracker</title>
+<meta name="robots" content="noindex,nofollow"><title>Checklist Tracker · Thailand 2026</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M30 6v34H12z' fill='%23ffffff' stroke='%230b3b45' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M34 12v28h16z' fill='%23ff6f4e' stroke='%230b3b45' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M4 44h56l-9 12H13z' fill='%231a73e8' stroke='%230b3b45' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#f6f0e4;--card:#fffaf1;--ink:#10343c;--mut:#5c7479;--line:#10343c22;--acc:#ff6f4e;--aq:#2bb3c0;--deep:#0b3b45;--chip:#e3f3f3;--ok:#1c7a4b;--okb:#dff5e8;--wip:#9a6200;--wipb:#fff1d6;--todo:#5c7479;--todob:#eef1f2;--bad:#d9482b}
 @media(prefers-color-scheme:dark){:root{--bg:#0a1d22;--card:#10303a;--ink:#eaf4f3;--mut:#9db8bb;--line:#eaf4f31f;--chip:#16424d;--okb:#17422f;--ok:#7be0aa;--wipb:#4a3a12;--wip:#ffd27a;--todob:#1b3d47;--todo:#9db8bb}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
-.wrap{max-width:1100px;margin:auto;padding:28px 16px 60px}
+.wrap{max-width:1100px;margin:auto;padding:24px 16px 60px}
+[hidden]{display:none!important}
 h1{font:600 34px/1.15 Georgia,'Fraunces',serif;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 22px}
 .btn{font:600 14px inherit;font-family:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer}
 .btn.p{background:var(--deep);color:#fff;border-color:var(--deep)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px}
 #gate{max-width:420px;margin:12vh auto 0;text-align:center}.pwb{position:relative}.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);margin-top:3px;width:34px;height:34px;border:0;border-radius:50%;background:var(--deep);color:#fff;cursor:pointer;display:grid;place-items:center;padding:0}.eye svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.eye:hover{background:#12586a}#gate input{width:100%;font:inherit;padding:12px 48px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin:14px 0 8px;text-align:center}
 .err{color:var(--bad);min-height:22px;margin:0 0 8px;font-size:14px}
-.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}.top .tools{display:flex;gap:8px;align-items:center;color:var(--mut);font-size:13px}
+.hd{position:sticky;top:0;z-index:30;background:var(--deep);color:#fff;box-shadow:0 2px 12px #0004}.hdi{max-width:1100px;margin:auto;height:60px;padding:0 16px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font:600 20px Georgia,'Fraunces',serif;margin-right:auto;min-width:0}.brand svg{width:34px;height:34px;flex:none}.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acts{display:flex;gap:8px;align-items:center}
+.ib{font:600 14px inherit;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;min-width:40px;padding:0 14px;border-radius:99px;border:1px solid #ffffff33;background:#ffffff14;color:#fff;cursor:pointer;text-decoration:none}.ib:hover{background:#ffffff2b}
+.ib svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mbtn{display:none}#drawer,#ov{display:none}
+.hint{color:var(--mut);font-size:13px;margin:0 0 18px}
+#dash{display:none}
+.dr{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;font:600 16px inherit;font-family:inherit;padding:13px 14px;border:0;border-radius:14px;background:transparent;color:var(--ink);cursor:pointer}.dr small{font:700 12px ui-monospace,Menlo,monospace;color:var(--mut)}.dr.on{background:var(--chip)}.dr h4{margin:14px 14px 6px;font:700 11px inherit;font-family:inherit;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.row{display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;margin-bottom:10px}
+.seg{display:flex;height:10px;border-radius:99px;background:var(--chip);overflow:hidden;margin:10px 0 6px}.seg i{display:block;height:100%}.seg .a{background:var(--aq)}.seg .b{background:#f0b64a}
+@media(max-width:760px){.lbl{display:none}.ib{padding:0}.brand{font-size:18px}.mbtn:not([hidden]){display:inline-flex}
+ .hdi{gap:8px;padding:0 12px}.acts{gap:6px}.wrap{padding-top:18px}h1{font-size:28px}
+ #ov{display:block;position:fixed;inset:60px 0 0 0;background:#0008;opacity:0;pointer-events:none;transition:opacity .25s;z-index:28}#ov.on{opacity:1;pointer-events:auto}
+ #drawer{display:block;position:fixed;top:60px;bottom:0;left:0;width:84%;max-width:330px;background:var(--card);border-right:1px solid var(--line);padding:12px;overflow:auto;transform:translateX(-102%);transition:transform .25s;z-index:29}#drawer.on{transform:none}
+ body[data-view=all] #dash{display:block}body[data-view=all] #grid{display:none}
+ body[data-view=one] #sum,body[data-view=one] .pagehead{display:none}body[data-view=one] .card.p:not(.sel){display:none}
+ .sum{grid-template-columns:repeat(2,1fr)}.sum b{font-size:26px}}
 .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}.sum .card{padding:14px 18px}.sum b{display:block;font:600 30px/1.1 Georgia,serif}.sum small{color:var(--mut);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
 .p h3{margin:0;font-size:19px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}.p h3 span{font:700 15px ui-monospace,Menlo,monospace}
@@ -29,15 +48,21 @@ h1{font:600 34px/1.15 Georgia,'Fraunces',serif;margin:0 0 4px}.sub{color:var(--m
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--deep);color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9}.toast.on{opacity:1}
 .tag{font-size:11px;font-weight:700;border-radius:99px;padding:1px 9px;margin-left:6px;vertical-align:middle}.tag.done{background:var(--okb);color:var(--ok)}.tag.no{background:var(--todob);color:var(--todo)}
 </style></head><body>
+<header class="hd"><div class="hdi">
+<button type="button" id="mb" class="ib mbtn" hidden aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<a class="brand" href="index.html" aria-label="2M 5L Island Excursion home"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M30 6v34H12z" fill="#fff" stroke="#0b3b45" stroke-width="3" stroke-linejoin="round"/><path d="M34 12v28h16z" fill="#ff6f4e" stroke="#0b3b45" stroke-width="3" stroke-linejoin="round"/><path d="M4 44h56l-9 12H13z" fill="#1a73e8" stroke="#0b3b45" stroke-width="3" stroke-linejoin="round"/></svg><span>Tracker</span></a>
+<nav class="acts" aria-label="Pages"><a class="ib" href="index.html" title="Home page" aria-label="Home page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span class="lbl">Home</span></a><a class="ib" href="immigration.html" title="Immigration page" aria-label="Immigration page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M9 16.5h6"/></svg><span class="lbl">Immigration</span></a><button type="button" class="ib" id="rf" hidden title="Refresh" aria-label="Refresh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span class="lbl">Refresh</span></button><button type="button" class="ib" id="lk" hidden title="Lock" aria-label="Lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span class="lbl">Lock</span></button></nav>
+</div></header>
+<div id="ov"></div><aside id="drawer" aria-label="Travellers"></aside>
 <main class="wrap">
-<section id="gate" class="card"><p style="font-size:44px;margin:0" aria-hidden="true">📊</p><h2 style="margin:6px 0 0">Tracker</h2><p class="sub" style="margin:6px 0 0">Private. Enter your password.</p>
-<form id="f"><div class="pwb"><input id="pw" type="password" autocomplete="off" aria-label="Password" autofocus><button type="button" id="eye" class="eye" aria-label="Show password" title="Show / hide password"></button></div><p class="err" id="e"></p><button class="btn p" id="go" type="submit">Unlock</button></form></section>
+<section id="gate" class="card"><p style="font-size:44px;margin:0" aria-hidden="true">🔒</p><h2 style="margin:6px 0 0">Tracker</h2><p class="sub" style="margin:6px 0 0">Private. Enter your password.</p>
+<form id="f"><div class="pwb"><input id="pw" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Password" autofocus><button type="button" id="eye" class="eye" aria-label="Show password" title="Show / hide password"></button></div><p class="err" id="e"></p><button class="btn p" id="go" type="submit">Unlock</button></form></section>
 <div id="app" hidden>
-<div class="top"><div><h1>Checklist Tracker</h1><p class="sub" id="upd">Loading…</p></div><div class="tools"><button class="btn" id="rf" type="button">↻ Refresh</button><button class="btn" id="lk" type="button">Lock</button></div></div>
-<div class="sum" id="sum"></div><div class="grid" id="grid"></div></div>
+<div class="pagehead"><h1>Checklist Tracker</h1><p class="sub" id="upd">Loading…</p></div>
+<div class="sum" id="sum"></div><div id="dash"></div><div class="grid" id="grid"></div></div>
 </main><div class="toast" id="toast" role="status"></div>
 <script>
-const $=s=>document.querySelector(s),EYE_C='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.6 10.6 0 0 1 12 5c5.5 0 9.3 4.5 10 7-.3 1.1-1.2 2.7-2.7 4.1M6.6 6.7C4.5 8.1 3.2 10.3 2 12c.8 2.5 4.5 7 10 7 1.6 0 3-.4 4.3-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>',EYE_O='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12c.9-2.7 4.6-7 10-7s9.1 4.3 10 7c-.9 2.7-4.6 7-10 7S2.9 14.7 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',L={"s":"7nfkgxSQXYd6qwebTHgSxw==","it":600000,"iv":"IE3OtLc+sHsm+sLc","c":"pJSqukS+DdBzwEBCNYz1Iaucc1836YZ2kZyKb2D/hMKyzRSYe+vXzUBFPide2Orc5txlXSMyufx5oTBgoGnQqWxLS3gPia5v8d/132rINdZo6NCtdHzpunjHzI5F4Jt2colo4fAV2yXV7xn0JYx6OyzNji44n3IUGZY/8Jh7jQD+qP51gefuqw+eJ0AYV7Vg6/UnrHCIsLzrEsz+nu84ERt2ywEFe6Ou2wuhXGp/hoPMWb5U7oolqfETOxHKhOYEkGNC6UAQGs3L4s2By/E9DBxUc4TyMzVEOZ3HilD1RjczPMrVaazmHdG5qwzKRxfvBGHmceKbKifSxPhAilcaskMQU86PvQbdc0NezaejRPzdBssZXnp6xEhi9K5P5lvdrxfAWClm5Bz4uUzOltxzigXXh8MN+/SlJCGg+QpH98T/ri0qtEbEqGWR2KlxBoY+koPeQ1n8C5/Vgu+00c6nGa5njvm9as50++5mmIlnx81P8oUCdnGAnUbv+1MeY8dTGGesWPcGQCXTZa3JjkkrkyHFUP9uP9RK8IO3igjnqwo3IsmBTqwouZd6vv1/k6is2yYVIgmhxOmA8VZeEOYhnnuw0sMdU5Z+IRMa2C28gXg1cJAOVnfkBxvroPoCXRCoXx37cpmNSbbtcqiaBdjhGjgtTLdse/ySH+1vNHURyEszCfPFfeWXiIurr6X0dgiKqWA2UzaUlIkvWHLXg5cR82r0vJIvcrwiVddlrjRNxTvw3FBFV8LBAyROb7ed9yL89njIyhaBvPKNaTEoEqxx6zT1JvTZk1LkY5QU3YTPUn4qIK21AZPknenkZhV3TuBYTVRPgO8/9Aa6m0DJwDMAhGZwHpGGaqJDgIxcRPU/P886Y4P2OtMp+wiI5uR7Dfsgofu5thSZUxaohzdr/7LFBg5MqCJxIn1mYjtSIdsHerImc0i2M5Jn5XIlSlRsX0nzfPoLagSdBgrfh4H12YTERHJQ7mQh46+GBFoWp1qsCHCA2ovw16vlWXBUm6XBVrQYWO7AnvSLqFdxg7I2t4D5f89+BXb82pjROfRysLYSlQK1YElW9K1gkQyurivR8+Flj6ZUFUuR81wkAE7WtnTNnToPrN4991FO9omYrHVV18vVED4nDHo/5YAz4eqn70emgBPnpa5wTK4VfGpPQPBPpUyMFAwDf8I7Fc6Q6HLokjQhyvKIiIlVlytLD7LMN6TnQwFGwtwVb4a63nWa2sHm2SIjTUdjqWV0DZM9yGFhAvNjFpmBE9QB/nepUKTGVVeGwA00zLS4aTaL1427eEqmdXtFxb5WAdZLGtpxfwR8broBQigowzSxRV1zJSpnwNdlj06hNmJTNzfPpazjxXjBXxB258zldiLEnqtAi2XRvRQyhBiLyC8RuKSD6T/hjaT/qh2xgLz/Fi0kIXFhDcwBybhYRNVeucPi7gjV+W2Xr2iZuR1z0ufIBv+cYthXrqkClZmIZgPJNSrlxsVLIudBITmxokY5ibgB9blPkT7g"},FB='https://trip-2m5l-2026-default-rtdb.firebaseio.com';
+const $=s=>document.querySelector(s),EYE_C='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.6 10.6 0 0 1 12 5c5.5 0 9.3 4.5 10 7-.3 1.1-1.2 2.7-2.7 4.1M6.6 6.7C4.5 8.1 3.2 10.3 2 12c.8 2.5 4.5 7 10 7 1.6 0 3-.4 4.3-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>',EYE_O='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12c.9-2.7 4.6-7 10-7s9.1 4.3 10 7c-.9 2.7-4.6 7-10 7S2.9 14.7 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',L={"s":"CGGla7nMY4f3A65C68U6fA==","it":600000,"iv":"S+HrFzmj85+a6VFb","c":"FTl0b9HagfYJe/M+MkOd+NEJgnvwAL+pMZ0FYOwzBfKu+3QkeCpUaZSlDISrRZE5xubb8CobIT5clMskDuqpXYY50RSrGQvl0ksvQmXqyIrvvyBVI5TbJLfevfILldyKNgZzwAKuXNmNZuhUPctaRnpl5/C0x8hjGroZ8jRonzhFWGb72wbv9f5K2Sy4cY05/gIfomRwLVJk3WAiydBOo8yVvJrotis8/6MG8atEvfTajXssBdgfDcYKCEdRubugCp/vNjtwSjJvPdh0UpdgfNBHGwtVv/iCRP+a4qzem3zgVnHVFDyYZGtvgq3QvLXjKnHxqLfQMt8oCTWv25TQfe7hj536Z8m+ZbtCP8nWrR/cKYgFrgmtVdolyVPHcP4ORvuzaa9cIOZ2Tako6KCeEX38NwxuE0OXAy+tzXG3A5XfvESOgzOPJ7phWKmp+xPxz8zeDeH8yFwHLfK0QiaLb4MM/nO+B3v3jN06DcoS45hgqmtYweEM3OqbrUf6/tTFSTeh/yPL8eiwkjV0vXdJ9k0Qf/UXN/JfnYDwLm6jpB12Ao+l15GY3EoRPne4v3TGrMwkFq/2c5rokEl62YDyaGaYBYKRaIXd9uMRNJCqJIsyFTLnQYIsYd4eGUxaG5i4bXy9H+88KvGNaSRLFyrnEBiCLdZn4wIj5kVCxXWNX/D7X3wtQeDEwd8ElqjuoyyczDMv1/f7Gs+10vNwdKvSeV3TNAbAUSSqrfQgmlRuivjLIhvckC3hseQfmvMnjeVWzQduNb4VUspfqotUJu+NDgt3GDJCAmbItGP8Uiy0/8BvvDq+38GwW3EH+TML+0UDcTD27LUXnjOQ1ZeOxNhXLrhBaqSpNYgODnIzs+cdjpm4Ct5squPnBOtXKfqU1I+uAV0dbJxWbmUt7DZ2g2Jkmpyp18TqPwxQj5sWgrVFSE5fSlusXip3FzOG9LpQKhc5Ju1wo/TKmL/vNmR16U+ryZ9eTEFgaTHpne6wL4+RSIC7sNNa2COgcXSsJ/Z4qoCKkOVVKTdpAtHK1xjcYzspHBnEvXPJlgAkxF69aBSgFBffWYAvKayL/UnW3tlOSlnXjlxJCbCTgMHpqMaBQFrP3MzRwEujjkZdLQjSHdo9ddcctvRrZ4QCZpnwTnW3vreDIUy2m9WWSBIU7zi0QWCqXM67+47vIwZCb1M1CpqypQcpPA2Jp/Aetcz5JoTfIaSrSKeq3kLgLGqKzDPuorhmbhAqzpNG2LjNn/zk9uiGDvKCCTz8uwB3GE4F2VfyEvm4vpniWn7R9qEvkbLCBtYukMA0cTVEo/zG9YtrFyoIrzWy8QnurjWq97LFHiwsveeXFMsxROVHWhPXpAJbdG3PDNlDp2DuqwawDoaPdRFupCsxBc7X+xCfi/fXXu5oAWdkq0vgLv54lmN5yQRkmBSbp/CB1llQ3D18HHT4SzE3m6EOmkGKdeiRPjt7feePOKdc2HdiLAXCqwWcBhElcaWhxhaYBqMRcxAnGOU/ejzN"},FB='https://trip-2m5l-2026-default-rtdb.firebaseio.com';
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 async function open(pw){const E=new TextEncoder(),base=await crypto.subtle.importKey('raw',E.encode(pw),'PBKDF2',false,['deriveKey']),
 k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(L.s),iterations:L.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
@@ -61,23 +86,42 @@ setTimeout(()=>{b.classList.remove('ok');b.classList.add('gone');b.textContent='
 else throw new Error(r.msg||'failed')}
 catch(x){b.classList.remove('zoom');b.disabled=false;n.textContent='Send email';toast(x.message=='noapi'?'Set the web app URL first':'Could not send: '+x.message)}});
 function ago(ms){if(!ms)return 'no activity yet';const m=Math.round((Date.now()-ms)/6e4);if(m<1)return 'just now';if(m<60)return m+' min ago';const h=Math.round(m/60);if(h<48)return h+' h ago';return new Date(ms).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}
+let VIEW=-1;
+const pc=(n,t)=>t?Math.round(100*n/t):0;
+function split(done,wip,tot){const d=pc(done,tot),w=pc(wip,tot);return[d,Math.min(w,100-d),Math.max(0,100-d-Math.min(w,100-d))]}
+function setView(v){VIEW=v;document.body.dataset.view=v<0?'all':'one';document.querySelectorAll('.card.p').forEach(c=>c.classList.toggle('sel',+c.dataset.i===v));document.querySelectorAll('.dr[data-v]').forEach(b=>b.classList.toggle('on',+b.dataset.v===v));scrollTo(0,0)}
+function drawer(open){$('#drawer').classList.toggle('on',open);$('#ov').classList.toggle('on',open);$('#mb').setAttribute('aria-expanded',open)}
 async function load(){if(!D)return;$('#upd').textContent='Refreshing…';await syncSent();
 const rs=await Promise.all(D.t.map(t=>fetch(FB+'/imm/'+t.h+'.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null)));
-let all=0,full=0,none=0;
-$('#grid').innerHTML=D.t.map((t,i)=>{const raw=rs[i]||{},its=D.i.map(x=>({...x,s:(raw[x.k]&&raw[x.k][0])|0,t:(raw[x.k]&&raw[x.k][1])|0})),
-done=its.filter(x=>x.s==2).length,wip=its.filter(x=>x.s==1).length,last=Math.max(0,...its.map(x=>x.t)),started=its.some(x=>x.s>0);
-all+=done;if(done==its.length)full++;if(!started)none++;
-const tag=done==its.length?'<span class="tag done">Complete</span>':started?'':'<span class="tag no">Not started</span>';
-return `<article class="card p"><div class="pr"><div><h3><div>${esc(t.n)}${tag}</div><span>${done}/${its.length}</span></h3><div class="bar"><i style="width:${100*done/its.length}%"></i></div>
-<div class="meta">${done} done · ${wip} in progress · last activity ${ago(last)}</div></div>${mailBtn(t,done==its.length)}</div>${its.map(x=>`<div class="it"><span class="n${x.c?' c':''}">${esc(x.l)}</span><span class="st s${x.s}">${ST[x.s]}</span></div>`).join('')}</article>`}).join('');
-const n=D.t.length,tot=n*D.i.length;
-$('#sum').innerHTML=`<div class="card"><b>${Math.round(100*all/tot)}%</b><small>Overall done</small></div><div class="card"><b>${full}/${n}</b><small>Fully complete</small></div><div class="card"><b>${none}</b><small>Not started</small></div><div class="card"><b>${n-full}</b><small>Still have gaps</small></div>`;
+if(!D)return;
+let aD=0,aW=0,aN=0,full=0,N0=0,cards='',rows='',dr='';const n=D.t.length,per=D.i.length;
+D.t.forEach((t,i)=>{const raw=rs[i]||{},its=D.i.map(x=>({...x,s:(raw[x.k]&&raw[x.k][0])|0,t:(raw[x.k]&&raw[x.k][1])|0})),
+done=its.filter(x=>x.s==2).length,wip=its.filter(x=>x.s==1).length,todo=per-done-wip,last=Math.max(0,...its.map(x=>x.t)),started=its.some(x=>x.s>0),[pd,pw,pn]=split(done,wip,per);
+aD+=done;aW+=wip;aN+=todo;if(done==per)full++;if(!started)N0++;
+const tag=done==per?'<span class="tag done">Complete</span>':started?'':'<span class="tag no">Not started</span>';
+const line=`${pd}% done · ${pw}% in progress · ${pn}% not started`;
+cards+=`<article class="card p" data-i="${i}"><div class="pr"><div><h3><div>${esc(t.n)}${tag}</div><span>${done}/${per}</span></h3><div class="bar"><i style="width:${pd}%"></i></div>
+<div class="meta">${line}<br>Last activity ${ago(last)}</div></div>${mailBtn(t,done==per)}</div>${its.map(x=>`<div class="it"><span class="n${x.c?' c':''}">${esc(x.l)}</span><span class="st s${x.s}">${ST[x.s]}</span></div>`).join('')}</article>`;
+rows+=`<button type="button" class="card row" data-v="${i}"><h3 style="margin:0;font-size:18px;display:flex;justify-content:space-between;gap:8px"><div>${esc(t.n)}${tag}</div><span style="font:700 15px ui-monospace,Menlo,monospace">${done}/${per}</span></h3><div class="seg"><i class="a" style="width:${pd}%"></i><i class="b" style="width:${pw}%"></i></div><div class="meta" style="margin:0">${line}</div></button>`;
+dr+=`<button type="button" class="dr" data-v="${i}">${esc(t.n)}<small>${done}/${per}</small></button>`});
+$('#grid').innerHTML=cards;$('#dash').innerHTML=rows;
+$('#drawer').innerHTML=`<button type="button" class="dr" data-v="-1">Dashboard<small>All</small></button><h4>Travellers</h4>${dr}`;
+const tot=n*per,[sD,sW,sN]=split(aD,aW,tot),inc=100-sD;
+$('#sum').innerHTML=`<div class="card"><b>${sD}%</b><small>Done</small></div><div class="card"><b>${sW}%</b><small>In progress</small></div><div class="card"><b>${sN}%</b><small>Not started</small></div><div class="card"><b>${inc}%</b><small>Incomplete</small></div><div class="card"><b>${full}/${n}</b><small>Fully complete</small></div><div class="card"><b>${n-full}</b><small>Travellers incomplete</small></div>`;
+setView(VIEW>=n?-1:VIEW);
 $('#upd').textContent='Live from the checklist. Updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'. Auto-refreshes every 30 s.'}
+const show=(ids,on)=>ids.forEach(i=>$('#'+i).hidden=!on);
+function lock(){clearInterval(timer);timer=null;D=null;VIEW=-1;['grid','dash','sum','drawer'].forEach(i=>$('#'+i).innerHTML='');drawer(false);$('#app').hidden=true;$('#gate').hidden=false;show(['mb','rf','lk'],false);$('#pw').value='';$('#pw').type='password';$('#eye').innerHTML=EYE_C;$('#e').textContent='';document.body.dataset.view='all'}
 $('#f').addEventListener('submit',async e=>{e.preventDefault();const b=$('#go');b.disabled=true;b.textContent='Checking…';$('#e').textContent='';
-try{D=await open($('#pw').value.trim().toLowerCase())}catch(x){D=null;$('#e').textContent='Wrong password.'}
-b.disabled=false;b.textContent='Unlock';if(!D)return;$('#pw').value='';$('#pw').type='password';$('#eye').innerHTML=EYE_C;$('#gate').hidden=true;$('#app').hidden=false;await load();timer=setInterval(load,30000)});
+try{D=await open($('#pw').value.trim())}catch(x){D=null;$('#e').textContent='Wrong password.'}
+b.disabled=false;b.textContent='Unlock';if(!D)return;$('#pw').value='';$('#pw').type='password';$('#eye').innerHTML=EYE_C;$('#gate').hidden=true;$('#app').hidden=false;show(['mb','rf','lk'],true);await load();timer=setInterval(load,30000)});
 $('#eye').innerHTML=EYE_C;
 $('#eye').onclick=e=>{const i=$('#pw'),on=i.type=='password';i.type=on?'text':'password';e.currentTarget.innerHTML=on?EYE_O:EYE_C;e.currentTarget.setAttribute('aria-label',on?'Hide password':'Show password');i.focus()};
-$('#rf').onclick=load;document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
-$('#lk').onclick=()=>{clearInterval(timer);D=null;$('#grid').innerHTML='';$('#app').hidden=true;$('#gate').hidden=false;$('#pw').focus()};
+$('#rf').onclick=load;$('#lk').onclick=()=>{lock();$('#pw').focus()};
+$('#mb').onclick=()=>drawer(!$('#drawer').classList.contains('on'));$('#ov').onclick=()=>drawer(false);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;setView(+b.dataset.v);drawer(false)});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+/* leaving the page (links, back, forward) always re-locks, including pages restored from the back/forward cache */
+addEventListener('pagehide',lock);addEventListener('pageshow',e=>{if(e.persisted||!D){lock();$('#pw').focus()}});
+document.body.dataset.view='all';
 </script></body></html>

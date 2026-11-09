@@ -211,11 +211,11 @@ const todayIST = () => Utilities.formatDate(new Date(), 'Asia/Kolkata', 'yyyy-MM
 const daysTo = d => Math.round((Date.parse(CONFIG.TRIP_DATE + 'T00:00:00Z') - Date.parse(d + 'T00:00:00Z')) / 864e5);
 const plain = h => h.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
-function send(t, kind, st, date) {
+function send(t, kind, st, date, manual) {
   const m = TEMPLATES[kind](t, st, {days: daysTo(date)});
   MailApp.sendEmail({
     to: CONFIG.TEST_MODE ? CONFIG.TEST_EMAIL : t.email,
-    subject: (CONFIG.TEST_MODE ? '[TEST for ' + t.name + '] ' : '') + m.subject,
+    subject: (CONFIG.TEST_MODE && !manual ? '[TEST for ' + t.name + '] ' : '') + m.subject,
     htmlBody: m.html, body: plain(m.html), name: CONFIG.FROM_NAME, replyTo: CONFIG.OWNER_EMAIL
   });
 }
@@ -275,7 +275,7 @@ function doGet(e) {
       if (props.getProperty(key(t.hash))) return out({ok:false, already:true, msg:'Already emailed today'});   // one manual email per person per day
       const st = getStatus(t);
       if (st.complete) return out({ok:false, msg:'All items are done'});
-      send(t, 'countdown', st, date);
+      send(t, 'countdown', st, date, true);   // manual: no [TEST] prefix
       if (!CONFIG.TEST_MODE) props.setProperty(key(t.hash), '1');
       return out({ok:true, test:CONFIG.TEST_MODE});
     } finally { lock.releaseLock(); }
