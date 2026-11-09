@@ -10,7 +10,7 @@ h1{font:600 34px/1.15 Georgia,'Fraunces',serif;margin:0 0 4px}.sub{color:var(--m
 .btn{font:600 14px inherit;font-family:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer}
 .btn.p{background:var(--deep);color:#fff;border-color:var(--deep)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px}
-#gate{max-width:420px;margin:12vh auto 0;text-align:center}#gate input{width:100%;font:inherit;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin:14px 0 8px;text-align:center}
+#gate{max-width:420px;margin:12vh auto 0;text-align:center}.pwb{position:relative}.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);margin-top:3px;width:34px;height:34px;border:0;border-radius:50%;background:var(--deep);color:#fff;cursor:pointer;display:grid;place-items:center;padding:0}.eye svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.eye:hover{background:#12586a}#gate input{width:100%;font:inherit;padding:12px 48px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin:14px 0 8px;text-align:center}
 .err{color:var(--bad);min-height:22px;margin:0 0 8px;font-size:14px}
 .top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}.top .tools{display:flex;gap:8px;align-items:center;color:var(--mut);font-size:13px}
 .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}.sum .card{padding:14px 18px}.sum b{display:block;font:600 30px/1.1 Georgia,serif}.sum small{color:var(--mut);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
@@ -21,39 +21,63 @@ h1{font:600 34px/1.15 Georgia,'Fraunces',serif;margin:0 0 4px}.sub{color:var(--m
 .it{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line);font-size:14px}.it:first-of-type{border-top:0}
 .it .n.c::before{content:'\25CF ';color:var(--bad)}
 .st{font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px;white-space:nowrap}.s0{background:var(--todob);color:var(--todo)}.s1{background:var(--wipb);color:var(--wip)}.s2{background:var(--okb);color:var(--ok)}
+.mail{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--chip);color:var(--ink);font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:transform .22s cubic-bezier(.3,1.6,.5,1),background .25s,color .25s}
+.mail:hover:not(:disabled){transform:scale(1.1)}.mail.zoom{transform:scale(1.35)}.mail.ok{background:var(--okb);color:var(--ok);border-color:var(--ok);transform:scale(1.35)}
+.mail:disabled{cursor:not-allowed}.mail.gone{background:var(--todob);color:var(--todo);border-color:var(--line);transform:none;filter:grayscale(1);opacity:.75}
+.mailn{font-size:11px;color:var(--mut);text-align:center;margin-top:2px;min-width:52px}
+.pr{display:flex;align-items:flex-start;gap:8px}.pr>div:first-child{flex:1;min-width:0}.mw{display:flex;flex-direction:column;align-items:center}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--deep);color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9}.toast.on{opacity:1}
 .tag{font-size:11px;font-weight:700;border-radius:99px;padding:1px 9px;margin-left:6px;vertical-align:middle}.tag.done{background:var(--okb);color:var(--ok)}.tag.no{background:var(--todob);color:var(--todo)}
 </style></head><body>
 <main class="wrap">
 <section id="gate" class="card"><p style="font-size:44px;margin:0" aria-hidden="true">📊</p><h2 style="margin:6px 0 0">Tracker</h2><p class="sub" style="margin:6px 0 0">Private. Enter your password.</p>
-<form id="f"><input id="pw" type="password" autocomplete="off" aria-label="Password" autofocus><p class="err" id="e"></p><button class="btn p" id="go" type="submit">Unlock</button></form></section>
+<form id="f"><div class="pwb"><input id="pw" type="password" autocomplete="off" aria-label="Password" autofocus><button type="button" id="eye" class="eye" aria-label="Show password" title="Show / hide password"></button></div><p class="err" id="e"></p><button class="btn p" id="go" type="submit">Unlock</button></form></section>
 <div id="app" hidden>
 <div class="top"><div><h1>Checklist Tracker</h1><p class="sub" id="upd">Loading…</p></div><div class="tools"><button class="btn" id="rf" type="button">↻ Refresh</button><button class="btn" id="lk" type="button">Lock</button></div></div>
 <div class="sum" id="sum"></div><div class="grid" id="grid"></div></div>
-</main>
+</main><div class="toast" id="toast" role="status"></div>
 <script>
-const $=s=>document.querySelector(s),L={"s":"BnaBOx/urc+QchA1OiZfvA==","it":600000,"iv":"T9Oxx6dcPU+wfsN7","c":"Qv1yU14uyikp6pf5yrAjU5Z07LGv6bRWOpoYoF8imQ2cKSBbAW66V1uqeqVwCDWpQ8bl0TXqQpivJD2zlwYQT64doqCWzak/IHljJxCphHbYjUVVamGXXUUAyqY3iDNuV8rZS2dgTwYlDb+LHZB1wMS2rAAYfzpO+8jB3zfKTVIQvqhwpq0GPtdKAuCtIE/dVcDEwBjJvA8iKOff9wyUcNEsM2dxhXp2bNRGmO8epDHTRQ0Y9RIcYl/lDiGYHIQ9jE71MmMaz8yX9MR7BxMg5GJsNKiGC6fOzFhg8f0bHQgrHoeWCuGbS4Z9Wql4TYATzkPDdwK8L4poqLl1gu5D/Xl30pKpURmig8+rDsFJ5TpsAXKszBXTuiGvGdV7okpd+IJuL8dHON+774oPJOpNk15hVJNtaR/ifvH/gXdmc1NhglYdZojqre6/XzMy9vfIb13E+5kcO/h+l0e/fnCORhOfn9B7QzK8VGIQOrbJoLlevQaGSftXqpXK9OrwrYga6ghL+XD7r/TFCyd+aJ52/Xb7jT3wbFJcNyoGgMxCkym/+jXPmr3LZQ9+gj0xO4uvH6URlWmVnSbdEPMSz6YpxWKd4K9GQQ+fAEUAn0RRP9U9Pf0XpYiyRYmmz3PYx3J56vu5ZfVt740iykBUbMpqrs823GL+/RX5DV/38K1Hay/yZ9r3z6vm753vyDJ8vfaQ9ONsgZLM+XJpCqX3SifJTaEL5VXlfJWhBB+zULVk0cwVx2Oo+VV4zaUPfnUhnbyqEbPXKNhHaNESNuFZS2Lr8nn1fIhgrfoBYIy+wo5dSZorgsWWUqYdYilOgqon1QIY13u+Tj84W+CEjxe9PqA28pGFt4WyFJkFX85VTliK5vHvz24ez1fitdG3qYwrxWH+umUkV5qDZzxDsGZttSeT5z6km6fAhlLU26UMz4AmpgQXT2lnODRwHdY6INET0kLqE8vipJz8EPOw1jOmn/UP004/lECX0d3i/zEScrXtaca5ERASAT062iloTBedWXLz78jLMHCsFbbEnAji2xlEtNUOP69j0cydVaY4TqAab6iNvwsZvGqtO9QW974CzHRB/7wssekDQdZtOUxvLqZYpjrDeuGno0yIDM2Ymlaskw1Kq4pDO2or3pIqhIgrwZl3NqogjehgaOyHpGMHa+3x42uc/oMv6xBYuOz98J6wCGRxoglXo+DcuwdYDN3N2JFovYkX6ctB3tpBeOe/PkL88vYMuRbW0vICj9t6/FqClvbT2F6fq7LtFyUmNiM0I//4QOsYxPEccmfyogIHmaISFMNnyIU/bwuuyFmEtbs0XGBTjY0M1YnY+0ZwXqmLYGEdsH7hVjzvkT7OFSJOc7Gaut8XQTSJ/IZ0gT8mqhkMy1VeyunSrX7oEP3yy33qy43cKnF36qZvZkYaE9wqfSWYirIDeQCzHSG3/uFXDVscRhx4kZA+hpj+"},FB='https://trip-2m5l-2026-default-rtdb.firebaseio.com';
+const $=s=>document.querySelector(s),EYE_C='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.6 10.6 0 0 1 12 5c5.5 0 9.3 4.5 10 7-.3 1.1-1.2 2.7-2.7 4.1M6.6 6.7C4.5 8.1 3.2 10.3 2 12c.8 2.5 4.5 7 10 7 1.6 0 3-.4 4.3-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>',EYE_O='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12c.9-2.7 4.6-7 10-7s9.1 4.3 10 7c-.9 2.7-4.6 7-10 7S2.9 14.7 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',L={"s":"7nfkgxSQXYd6qwebTHgSxw==","it":600000,"iv":"IE3OtLc+sHsm+sLc","c":"pJSqukS+DdBzwEBCNYz1Iaucc1836YZ2kZyKb2D/hMKyzRSYe+vXzUBFPide2Orc5txlXSMyufx5oTBgoGnQqWxLS3gPia5v8d/132rINdZo6NCtdHzpunjHzI5F4Jt2colo4fAV2yXV7xn0JYx6OyzNji44n3IUGZY/8Jh7jQD+qP51gefuqw+eJ0AYV7Vg6/UnrHCIsLzrEsz+nu84ERt2ywEFe6Ou2wuhXGp/hoPMWb5U7oolqfETOxHKhOYEkGNC6UAQGs3L4s2By/E9DBxUc4TyMzVEOZ3HilD1RjczPMrVaazmHdG5qwzKRxfvBGHmceKbKifSxPhAilcaskMQU86PvQbdc0NezaejRPzdBssZXnp6xEhi9K5P5lvdrxfAWClm5Bz4uUzOltxzigXXh8MN+/SlJCGg+QpH98T/ri0qtEbEqGWR2KlxBoY+koPeQ1n8C5/Vgu+00c6nGa5njvm9as50++5mmIlnx81P8oUCdnGAnUbv+1MeY8dTGGesWPcGQCXTZa3JjkkrkyHFUP9uP9RK8IO3igjnqwo3IsmBTqwouZd6vv1/k6is2yYVIgmhxOmA8VZeEOYhnnuw0sMdU5Z+IRMa2C28gXg1cJAOVnfkBxvroPoCXRCoXx37cpmNSbbtcqiaBdjhGjgtTLdse/ySH+1vNHURyEszCfPFfeWXiIurr6X0dgiKqWA2UzaUlIkvWHLXg5cR82r0vJIvcrwiVddlrjRNxTvw3FBFV8LBAyROb7ed9yL89njIyhaBvPKNaTEoEqxx6zT1JvTZk1LkY5QU3YTPUn4qIK21AZPknenkZhV3TuBYTVRPgO8/9Aa6m0DJwDMAhGZwHpGGaqJDgIxcRPU/P886Y4P2OtMp+wiI5uR7Dfsgofu5thSZUxaohzdr/7LFBg5MqCJxIn1mYjtSIdsHerImc0i2M5Jn5XIlSlRsX0nzfPoLagSdBgrfh4H12YTERHJQ7mQh46+GBFoWp1qsCHCA2ovw16vlWXBUm6XBVrQYWO7AnvSLqFdxg7I2t4D5f89+BXb82pjROfRysLYSlQK1YElW9K1gkQyurivR8+Flj6ZUFUuR81wkAE7WtnTNnToPrN4991FO9omYrHVV18vVED4nDHo/5YAz4eqn70emgBPnpa5wTK4VfGpPQPBPpUyMFAwDf8I7Fc6Q6HLokjQhyvKIiIlVlytLD7LMN6TnQwFGwtwVb4a63nWa2sHm2SIjTUdjqWV0DZM9yGFhAvNjFpmBE9QB/nepUKTGVVeGwA00zLS4aTaL1427eEqmdXtFxb5WAdZLGtpxfwR8broBQigowzSxRV1zJSpnwNdlj06hNmJTNzfPpazjxXjBXxB258zldiLEnqtAi2XRvRQyhBiLyC8RuKSD6T/hjaT/qh2xgLz/Fi0kIXFhDcwBybhYRNVeucPi7gjV+W2Xr2iZuR1z0ufIBv+cYthXrqkClZmIZgPJNSrlxsVLIudBITmxokY5ibgB9blPkT7g"},FB='https://trip-2m5l-2026-default-rtdb.firebaseio.com';
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 async function open(pw){const E=new TextEncoder(),base=await crypto.subtle.importKey('raw',E.encode(pw),'PBKDF2',false,['deriveKey']),
 k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(L.s),iterations:L.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
 return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(L.iv)},k,b64(L.c))))}
 const ST=['To do','In progress','Done'],esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-let D=null,timer=null;
+let D=null,timer=null,SENT=new Set();
+const today=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'}),LSK='mailed|'+'DAY';
+const lsGet=()=>{try{const o=JSON.parse(localStorage.getItem('trkMail')||'{}');return o.d==today()?o.h:[]}catch(e){return[]}},lsAdd=h=>{try{localStorage.setItem('trkMail',JSON.stringify({d:today(),h:[...new Set([...lsGet(),h])]}))}catch(e){}};
+const api=()=>{try{return localStorage.getItem('trkApi')||''}catch(e){return''}};
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3200)}
+function mailBtn(t,full){if(full)return '<div class="mw"><button class="mail gone" disabled title="Everything is done" aria-label="Complete">✓</button><div class="mailn">Complete</div></div>';
+const gone=SENT.has(t.h);return `<div class="mw"><button class="mail${gone?' gone':''}" data-h="${t.h}" ${gone?'disabled':''} title="${gone?'Already emailed today':'Send a reminder email'}" aria-label="Send reminder email to ${esc(t.n)}">${gone?'✉':'✉️'}</button><div class="mailn">${gone?'Emailed':'Send email'}</div></div>`}
+async function callApi(q){const u=api();if(!u)throw new Error('noapi');const r=await fetch(u+(u.includes('?')?'&':'?')+new URLSearchParams({token:D.a,...q}),{cache:'no-store'});return r.json()}
+async function syncSent(){SENT=new Set(lsGet());try{if(api()){const r=await callApi({action:'status'});if(r.ok)r.sent.forEach(h=>SENT.add(h))}}catch(e){}}
+document.addEventListener('click',async e=>{const b=e.target.closest('.mail[data-h]');if(!b||b.disabled)return;
+if(!api()){const u=prompt('One-time setup: paste your Apps Script web app URL (ends with /exec)');if(!u||!/^https:\/\/script\.google(usercontent)?\.com\//.test(u.trim())){toast('That does not look like a web app URL');return}try{localStorage.setItem('trkApi',u.trim())}catch(x){}}
+const h=b.dataset.h,n=b.nextElementSibling;b.disabled=true;b.classList.add('zoom');n.textContent='Sending…';
+try{const r=await callApi({action:'send',hash:h});
+if(r.ok||r.already){b.classList.remove('zoom');b.classList.add('ok');b.textContent='✓';n.textContent=r.ok?(r.test?'Sent (test)':'Sent'):'Already sent';lsAdd(h);SENT.add(h);
+setTimeout(()=>{b.classList.remove('ok');b.classList.add('gone');b.textContent='✉';b.title='Already emailed today';n.textContent='Emailed'},1100);if(r.ok)toast(r.test?'Test mode: sent to your own inbox':'Email sent')}
+else throw new Error(r.msg||'failed')}
+catch(x){b.classList.remove('zoom');b.disabled=false;n.textContent='Send email';toast(x.message=='noapi'?'Set the web app URL first':'Could not send: '+x.message)}});
 function ago(ms){if(!ms)return 'no activity yet';const m=Math.round((Date.now()-ms)/6e4);if(m<1)return 'just now';if(m<60)return m+' min ago';const h=Math.round(m/60);if(h<48)return h+' h ago';return new Date(ms).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}
-async function load(){if(!D)return;$('#upd').textContent='Refreshing…';
+async function load(){if(!D)return;$('#upd').textContent='Refreshing…';await syncSent();
 const rs=await Promise.all(D.t.map(t=>fetch(FB+'/imm/'+t.h+'.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null)));
 let all=0,full=0,none=0;
 $('#grid').innerHTML=D.t.map((t,i)=>{const raw=rs[i]||{},its=D.i.map(x=>({...x,s:(raw[x.k]&&raw[x.k][0])|0,t:(raw[x.k]&&raw[x.k][1])|0})),
 done=its.filter(x=>x.s==2).length,wip=its.filter(x=>x.s==1).length,last=Math.max(0,...its.map(x=>x.t)),started=its.some(x=>x.s>0);
 all+=done;if(done==its.length)full++;if(!started)none++;
 const tag=done==its.length?'<span class="tag done">Complete</span>':started?'':'<span class="tag no">Not started</span>';
-return `<article class="card p"><h3><div>${esc(t.n)}${tag}</div><span>${done}/${its.length}</span></h3><div class="bar"><i style="width:${100*done/its.length}%"></i></div>
-<div class="meta">${done} done · ${wip} in progress · last activity ${ago(last)}</div>${its.map(x=>`<div class="it"><span class="n${x.c?' c':''}">${esc(x.l)}</span><span class="st s${x.s}">${ST[x.s]}</span></div>`).join('')}</article>`}).join('');
+return `<article class="card p"><div class="pr"><div><h3><div>${esc(t.n)}${tag}</div><span>${done}/${its.length}</span></h3><div class="bar"><i style="width:${100*done/its.length}%"></i></div>
+<div class="meta">${done} done · ${wip} in progress · last activity ${ago(last)}</div></div>${mailBtn(t,done==its.length)}</div>${its.map(x=>`<div class="it"><span class="n${x.c?' c':''}">${esc(x.l)}</span><span class="st s${x.s}">${ST[x.s]}</span></div>`).join('')}</article>`}).join('');
 const n=D.t.length,tot=n*D.i.length;
 $('#sum').innerHTML=`<div class="card"><b>${Math.round(100*all/tot)}%</b><small>Overall done</small></div><div class="card"><b>${full}/${n}</b><small>Fully complete</small></div><div class="card"><b>${none}</b><small>Not started</small></div><div class="card"><b>${n-full}</b><small>Still have gaps</small></div>`;
 $('#upd').textContent='Live from the checklist. Updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'. Auto-refreshes every 30 s.'}
 $('#f').addEventListener('submit',async e=>{e.preventDefault();const b=$('#go');b.disabled=true;b.textContent='Checking…';$('#e').textContent='';
 try{D=await open($('#pw').value.trim().toLowerCase())}catch(x){D=null;$('#e').textContent='Wrong password.'}
-b.disabled=false;b.textContent='Unlock';if(!D)return;$('#pw').value='';$('#gate').hidden=true;$('#app').hidden=false;await load();timer=setInterval(load,30000)});
+b.disabled=false;b.textContent='Unlock';if(!D)return;$('#pw').value='';$('#pw').type='password';$('#eye').innerHTML=EYE_C;$('#gate').hidden=true;$('#app').hidden=false;await load();timer=setInterval(load,30000)});
+$('#eye').innerHTML=EYE_C;
+$('#eye').onclick=e=>{const i=$('#pw'),on=i.type=='password';i.type=on?'text':'password';e.currentTarget.innerHTML=on?EYE_O:EYE_C;e.currentTarget.setAttribute('aria-label',on?'Hide password':'Show password');i.focus()};
 $('#rf').onclick=load;document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
 $('#lk').onclick=()=>{clearInterval(timer);D=null;$('#grid').innerHTML='';$('#app').hidden=true;$('#gate').hidden=false;$('#pw').focus()};
 </script></body></html>
