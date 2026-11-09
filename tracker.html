@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Checklist Tracker</title>
+<style>
+:root{--bg:#f6f0e4;--card:#fffaf1;--ink:#10343c;--mut:#5c7479;--line:#10343c22;--acc:#ff6f4e;--aq:#2bb3c0;--deep:#0b3b45;--chip:#e3f3f3;--ok:#1c7a4b;--okb:#dff5e8;--wip:#9a6200;--wipb:#fff1d6;--todo:#5c7479;--todob:#eef1f2;--bad:#d9482b}
+@media(prefers-color-scheme:dark){:root{--bg:#0a1d22;--card:#10303a;--ink:#eaf4f3;--mut:#9db8bb;--line:#eaf4f31f;--chip:#16424d;--okb:#17422f;--ok:#7be0aa;--wipb:#4a3a12;--wip:#ffd27a;--todob:#1b3d47;--todo:#9db8bb}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+.wrap{max-width:1100px;margin:auto;padding:28px 16px 60px}
+h1{font:600 34px/1.15 Georgia,'Fraunces',serif;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 22px}
+.btn{font:600 14px inherit;font-family:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 16px;cursor:pointer}
+.btn.p{background:var(--deep);color:#fff;border-color:var(--deep)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px}
+#gate{max-width:420px;margin:12vh auto 0;text-align:center}#gate input{width:100%;font:inherit;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin:14px 0 8px;text-align:center}
+.err{color:var(--bad);min-height:22px;margin:0 0 8px;font-size:14px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}.top .tools{display:flex;gap:8px;align-items:center;color:var(--mut);font-size:13px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}.sum .card{padding:14px 18px}.sum b{display:block;font:600 30px/1.1 Georgia,serif}.sum small{color:var(--mut);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.p h3{margin:0;font-size:19px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}.p h3 span{font:700 15px ui-monospace,Menlo,monospace}
+.bar{height:10px;border-radius:99px;background:var(--chip);overflow:hidden;margin:10px 0 4px}.bar i{display:block;height:100%;background:var(--aq);border-radius:99px;transition:width .5s}
+.meta{font-size:12px;color:var(--mut);margin-bottom:10px}
+.it{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line);font-size:14px}.it:first-of-type{border-top:0}
+.it .n.c::before{content:'\25CF ';color:var(--bad)}
+.st{font-size:12px;font-weight:700;border-radius:99px;padding:2px 10px;white-space:nowrap}.s0{background:var(--todob);color:var(--todo)}.s1{background:var(--wipb);color:var(--wip)}.s2{background:var(--okb);color:var(--ok)}
+.tag{font-size:11px;font-weight:700;border-radius:99px;padding:1px 9px;margin-left:6px;vertical-align:middle}.tag.done{background:var(--okb);color:var(--ok)}.tag.no{background:var(--todob);color:var(--todo)}
+</style></head><body>
+<main class="wrap">
+<section id="gate" class="card"><p style="font-size:44px;margin:0" aria-hidden="true">📊</p><h2 style="margin:6px 0 0">Tracker</h2><p class="sub" style="margin:6px 0 0">Private. Enter your password.</p>
+<form id="f"><input id="pw" type="password" autocomplete="off" aria-label="Password" autofocus><p class="err" id="e"></p><button class="btn p" id="go" type="submit">Unlock</button></form></section>
+<div id="app" hidden>
+<div class="top"><div><h1>Checklist Tracker</h1><p class="sub" id="upd">Loading…</p></div><div class="tools"><button class="btn" id="rf" type="button">↻ Refresh</button><button class="btn" id="lk" type="button">Lock</button></div></div>
+<div class="sum" id="sum"></div><div class="grid" id="grid"></div></div>
+</main>
+<script>
+const $=s=>document.querySelector(s),L={"s":"BnaBOx/urc+QchA1OiZfvA==","it":600000,"iv":"T9Oxx6dcPU+wfsN7","c":"Qv1yU14uyikp6pf5yrAjU5Z07LGv6bRWOpoYoF8imQ2cKSBbAW66V1uqeqVwCDWpQ8bl0TXqQpivJD2zlwYQT64doqCWzak/IHljJxCphHbYjUVVamGXXUUAyqY3iDNuV8rZS2dgTwYlDb+LHZB1wMS2rAAYfzpO+8jB3zfKTVIQvqhwpq0GPtdKAuCtIE/dVcDEwBjJvA8iKOff9wyUcNEsM2dxhXp2bNRGmO8epDHTRQ0Y9RIcYl/lDiGYHIQ9jE71MmMaz8yX9MR7BxMg5GJsNKiGC6fOzFhg8f0bHQgrHoeWCuGbS4Z9Wql4TYATzkPDdwK8L4poqLl1gu5D/Xl30pKpURmig8+rDsFJ5TpsAXKszBXTuiGvGdV7okpd+IJuL8dHON+774oPJOpNk15hVJNtaR/ifvH/gXdmc1NhglYdZojqre6/XzMy9vfIb13E+5kcO/h+l0e/fnCORhOfn9B7QzK8VGIQOrbJoLlevQaGSftXqpXK9OrwrYga6ghL+XD7r/TFCyd+aJ52/Xb7jT3wbFJcNyoGgMxCkym/+jXPmr3LZQ9+gj0xO4uvH6URlWmVnSbdEPMSz6YpxWKd4K9GQQ+fAEUAn0RRP9U9Pf0XpYiyRYmmz3PYx3J56vu5ZfVt740iykBUbMpqrs823GL+/RX5DV/38K1Hay/yZ9r3z6vm753vyDJ8vfaQ9ONsgZLM+XJpCqX3SifJTaEL5VXlfJWhBB+zULVk0cwVx2Oo+VV4zaUPfnUhnbyqEbPXKNhHaNESNuFZS2Lr8nn1fIhgrfoBYIy+wo5dSZorgsWWUqYdYilOgqon1QIY13u+Tj84W+CEjxe9PqA28pGFt4WyFJkFX85VTliK5vHvz24ez1fitdG3qYwrxWH+umUkV5qDZzxDsGZttSeT5z6km6fAhlLU26UMz4AmpgQXT2lnODRwHdY6INET0kLqE8vipJz8EPOw1jOmn/UP004/lECX0d3i/zEScrXtaca5ERASAT062iloTBedWXLz78jLMHCsFbbEnAji2xlEtNUOP69j0cydVaY4TqAab6iNvwsZvGqtO9QW974CzHRB/7wssekDQdZtOUxvLqZYpjrDeuGno0yIDM2Ymlaskw1Kq4pDO2or3pIqhIgrwZl3NqogjehgaOyHpGMHa+3x42uc/oMv6xBYuOz98J6wCGRxoglXo+DcuwdYDN3N2JFovYkX6ctB3tpBeOe/PkL88vYMuRbW0vICj9t6/FqClvbT2F6fq7LtFyUmNiM0I//4QOsYxPEccmfyogIHmaISFMNnyIU/bwuuyFmEtbs0XGBTjY0M1YnY+0ZwXqmLYGEdsH7hVjzvkT7OFSJOc7Gaut8XQTSJ/IZ0gT8mqhkMy1VeyunSrX7oEP3yy33qy43cKnF36qZvZkYaE9wqfSWYirIDeQCzHSG3/uFXDVscRhx4kZA+hpj+"},FB='https://trip-2m5l-2026-default-rtdb.firebaseio.com';
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function open(pw){const E=new TextEncoder(),base=await crypto.subtle.importKey('raw',E.encode(pw),'PBKDF2',false,['deriveKey']),
+k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(L.s),iterations:L.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(L.iv)},k,b64(L.c))))}
+const ST=['To do','In progress','Done'],esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let D=null,timer=null;
+function ago(ms){if(!ms)return 'no activity yet';const m=Math.round((Date.now()-ms)/6e4);if(m<1)return 'just now';if(m<60)return m+' min ago';const h=Math.round(m/60);if(h<48)return h+' h ago';return new Date(ms).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}
+async function load(){if(!D)return;$('#upd').textContent='Refreshing…';
+const rs=await Promise.all(D.t.map(t=>fetch(FB+'/imm/'+t.h+'.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null)));
+let all=0,full=0,none=0;
+$('#grid').innerHTML=D.t.map((t,i)=>{const raw=rs[i]||{},its=D.i.map(x=>({...x,s:(raw[x.k]&&raw[x.k][0])|0,t:(raw[x.k]&&raw[x.k][1])|0})),
+done=its.filter(x=>x.s==2).length,wip=its.filter(x=>x.s==1).length,last=Math.max(0,...its.map(x=>x.t)),started=its.some(x=>x.s>0);
+all+=done;if(done==its.length)full++;if(!started)none++;
+const tag=done==its.length?'<span class="tag done">Complete</span>':started?'':'<span class="tag no">Not started</span>';
+return `<article class="card p"><h3><div>${esc(t.n)}${tag}</div><span>${done}/${its.length}</span></h3><div class="bar"><i style="width:${100*done/its.length}%"></i></div>
+<div class="meta">${done} done · ${wip} in progress · last activity ${ago(last)}</div>${its.map(x=>`<div class="it"><span class="n${x.c?' c':''}">${esc(x.l)}</span><span class="st s${x.s}">${ST[x.s]}</span></div>`).join('')}</article>`}).join('');
+const n=D.t.length,tot=n*D.i.length;
+$('#sum').innerHTML=`<div class="card"><b>${Math.round(100*all/tot)}%</b><small>Overall done</small></div><div class="card"><b>${full}/${n}</b><small>Fully complete</small></div><div class="card"><b>${none}</b><small>Not started</small></div><div class="card"><b>${n-full}</b><small>Still have gaps</small></div>`;
+$('#upd').textContent='Live from the checklist. Updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+'. Auto-refreshes every 30 s.'}
+$('#f').addEventListener('submit',async e=>{e.preventDefault();const b=$('#go');b.disabled=true;b.textContent='Checking…';$('#e').textContent='';
+try{D=await open($('#pw').value.trim().toLowerCase())}catch(x){D=null;$('#e').textContent='Wrong password.'}
+b.disabled=false;b.textContent='Unlock';if(!D)return;$('#pw').value='';$('#gate').hidden=true;$('#app').hidden=false;await load();timer=setInterval(load,30000)});
+$('#rf').onclick=load;document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+$('#lk').onclick=()=>{clearInterval(timer);D=null;$('#grid').innerHTML='';$('#app').hidden=true;$('#gate').hidden=false;$('#pw').focus()};
+</script></body></html>
